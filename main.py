@@ -16,7 +16,7 @@ SNAKE_SIZE = 10
 # Создание окна
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("TVP")
+pygame.display.set_caption("snake")
 clock = pygame.time.Clock()
 
 

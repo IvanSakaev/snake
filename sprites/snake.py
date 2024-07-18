@@ -13,8 +13,11 @@ class Snake:
         self.image = pygame.image.load(image_path)
         
     def move(self, angle, need_move_head):
-        v = vector.obj(rho=self.dot_size, phi=angle)
-        self.snake_list.append(self.snake_list[-1] + v)
+        if need_move_head:
+            v = vector.obj(rho=self.dot_size, phi=angle)
+            self.snake_list.append(self.snake_list[-1] + v)
+        else:
+            self.snake_list.append(self.snake_list[-1])
         self.snake_list.pop(0)
     
     def draw(self, surface):
