@@ -32,12 +32,12 @@ class SnakeHead(pygame.sprite.Sprite):
         for i in range(len(sprites) - 1, -1, -1):
             food = sprites[i]
             if pygame.sprite.collide_circle(self, food):
-                if random.randint(0, 100) > 50:
+                if random.randint(0, 100) < 50:
                     food.change_position()
                 else:
                     foods.remove(food)
                     food.kill()
-                self.score += 1
+                self.score += food.size
 
         return False
 

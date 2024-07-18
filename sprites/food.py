@@ -4,7 +4,14 @@ import time
 
 
 class Food(pygame.sprite.Sprite):
-    def __init__(self, screen_w, screen_h, game_w, game_h, image_path="assets/food.png"):
+    def __init__(self, screen_w, screen_h, game_w, game_h):
+        if random.randint(0, 100) < 95:
+            image_path = "assets/food.png"
+            size = 1
+        else:
+            image_path = "assets/big_food.png"
+            size = 5
+
         super().__init__()
         self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
@@ -15,6 +22,7 @@ class Food(pygame.sprite.Sprite):
         self.x = 0
         self.y = 0
         self.radius = self.rect.height / 2
+        self.size = size
         self.change_position()
 
     def draw(self, surface):
