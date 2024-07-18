@@ -19,6 +19,8 @@ SNAKE_SIZE = 10
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("snake")
+pygame.font.init()
+my_font = pygame.font.Font(None, 60)
 clock = pygame.time.Clock()
 
 
@@ -33,7 +35,7 @@ running = True
 mouse_x = WIDTH / 2
 mouse_y = HEIGHT / 2
 
-while running:
+while True:
     # Частота обновления экрана
     clock.tick(FPS)
 
@@ -46,14 +48,23 @@ while running:
         if event.type == pygame.MOUSEMOTION:
             mouse_x = event.pos[0]
             mouse_y = event.pos[1]
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if running == False:
+                    snake = Snake(SNAKE_SIZE, screen_w=WIDTH, screen_h=HEIGHT,
+                                  game_w=GAME_WIDTH, game_h=GAME_HEIGHT)
+                    running = True
 
 
     # Обновление спрайтов
-    snake.update(mouse_x, mouse_y)
-    head_x, head_y = snake.get_head_position()
+    if running:
+        if snake.update(mouse_x, mouse_y):
+            running = False
 
 
     # Рендеринг
+    head_x, head_y = snake.get_head_position()
+
     screen.fill((255, 255, 255))
     snake.draw(screen)
     pygame.draw.line(screen, (0, 0, 0),
@@ -68,6 +79,11 @@ while running:
     pygame.draw.line(screen, (0, 0, 0),
                      (WIDTH / 2 - head_x + GAME_WIDTH, HEIGHT / 2 - head_y),
                      (WIDTH / 2 - head_x + GAME_WIDTH, HEIGHT / 2 - head_y + GAME_HEIGHT), 3)
+    if not running:
+        text = my_font.render("Game Over", False, (0, 0, 0))
+        rect = text.get_rect()
+        rect.center = (WIDTH / 2, HEIGHT / 2)
+        screen.blit(text, rect)
 
     # Обновление экрана
     pygame.display.update()

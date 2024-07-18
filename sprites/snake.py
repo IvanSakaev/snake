@@ -1,13 +1,15 @@
 import pygame
 import vector
 
+from sprites.snakeHead import SnakeHead
+
 
 class Snake:
     def __init__(self, length, fragment_size=10, dot_size=2, screen_w=500,
                  screen_h=500, game_w=1000, game_h=1000,
                  image_path="assets/snake_fragment.png"):
         
-        self.snake_list = [vector.obj(x = 10, y = 10)]
+        self.snake_list = [vector.obj(x = game_w / 2, y = game_h / 2)]
         self.length = length
         self.fragment_size = fragment_size
         self.dot_size = dot_size
@@ -19,6 +21,7 @@ class Snake:
         self.game_h = game_h
 
         self.image = pygame.image.load(image_path)
+        self.head = SnakeHead(self.game_w, self.game_h, image_path)
         
     def move(self, angle):
         v = vector.obj(rho=self.dot_size, phi=angle)
@@ -27,6 +30,8 @@ class Snake:
             self.snake_list.pop(0)
         else:
             self.add_dots -= 1
+        self.head.update(self.snake_list[-1].x, self.snake_list[-1].y)
+        return self.head.get_in_wall()
     
     def draw(self, surface):
         head_pos = self.get_head_position()
@@ -43,7 +48,7 @@ class Snake:
         x = mouse_x - self.screen_w / 2
         y = mouse_y - self.screen_h / 2
         mouse_v = vector.obj(x=x, y=y)
-        self.move(mouse_v.phi)
+        return self.move(mouse_v.phi)  # is in wall or not
 
     def get_head_position(self):
         return (self.snake_list[-1].x, self.snake_list[-1].y)
