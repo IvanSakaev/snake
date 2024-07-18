@@ -42,6 +42,7 @@ for i in range(FOOD_COUNT):
 running = True
 mouse_x = WIDTH / 2
 mouse_y = HEIGHT / 2
+turbo = False
 
 while True:
     # Частота обновления экрана
@@ -62,12 +63,20 @@ while True:
                     snake = Snake(screen_w=WIDTH, screen_h=HEIGHT, game_w=GAME_WIDTH,
                                   game_h=GAME_HEIGHT, length=SNAKE_SIZE)
                     running = True
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            turbo = True
+        if event.type == pygame.MOUSEBUTTONUP:
+            turbo = False
 
 
     # Обновление спрайтов
     if running:
         if snake.update(mouse_x, mouse_y, foods):
             running = False
+        if turbo and (snake.get_score() > 0):
+            if snake.update(mouse_x, mouse_y, foods):
+                running = False
+            snake.turbo_reduce_score()
     head_x, head_y = snake.get_head_position()
     if running:
         if random.randint(0, 100) < 25:

@@ -25,6 +25,8 @@ class Snake:
         self.head = SnakeHead(self.screen_w, self.screen_h,
                               self.game_w, self.game_h, image_path)
         
+        self.turbo_timer = 0
+        
     def move(self, angle):
         v = vector.obj(rho=self.dot_size, phi=angle)
         self.snake_list.append(self.snake_list[-1] + v)
@@ -50,6 +52,12 @@ class Snake:
         mouse_v = vector.obj(x=x, y=y)
         self.move(mouse_v.phi)
         return self.head.get_in_wall(foods)
+    
+    def turbo_reduce_score(self):
+        self.turbo_timer += 1
+        if self.turbo_timer >= 15:
+            self.head.score -= 1
+            self.turbo_timer = 0
 
     def get_score(self):
         return self.head.score
