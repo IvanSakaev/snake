@@ -23,7 +23,8 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("snake")
 pygame.font.init()
-my_font = pygame.font.Font(None, 60)
+font1 = pygame.font.Font(None, 60)
+font2 = pygame.font.Font(None, 40)
 clock = pygame.time.Clock()
 
 
@@ -91,8 +92,14 @@ while True:
     foods.draw(screen)
     snake.draw(screen)
 
+    text = font2.render(f"score: {snake.get_score()}", False, (0, 0, 0))
+    rect = text.get_rect()
+    rect.top = 40
+    rect.left = 40
+    screen.blit(text, rect)
+
     if not running:
-        text = my_font.render("Game Over", False, (255, 0, 0))
+        text = font1.render("Game Over", False, (255, 0, 0))
         rect = text.get_rect()
         rect.center = (WIDTH / 2, HEIGHT / 2)
         screen.blit(text, rect)
