@@ -1,4 +1,5 @@
 import pygame
+import random
 import sys
 
 from sprites.snake import Snake
@@ -9,11 +10,11 @@ from sprites.food import Food
 # Константы
 WIDTH = 750
 HEIGHT = 750
-GAME_WIDTH = 1000
-GAME_HEIGHT = 1000
+GAME_WIDTH = 5000
+GAME_HEIGHT = 5000
 FPS = 60
 SNAKE_SIZE = 10
-FOOD_COUNT = 10
+FOOD_COUNT = 1000
 
 
 
@@ -68,6 +69,8 @@ while True:
             running = False
     head_x, head_y = snake.get_head_position()
     if running:
+        if random.randint(0, 100) < 25:
+            foods.add(Food(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
         foods.update(head_x, head_y)
 
 

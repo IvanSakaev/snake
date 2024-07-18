@@ -1,4 +1,5 @@
 import pygame
+import random
 
 
 class SnakeHead(pygame.sprite.Sprite):
@@ -15,6 +16,7 @@ class SnakeHead(pygame.sprite.Sprite):
         self.radius = self.rect.height / 2
         self.x = 0
         self.y = 0
+        self.score = 0
 
     def get_in_wall(self, foods : pygame.sprite.Group):
         if self.rect.left <= self.screen_w / 2 - self.x:
@@ -26,9 +28,16 @@ class SnakeHead(pygame.sprite.Sprite):
         if self.rect.bottom >= self.screen_h / 2 - self.y + self.game_height:
             return True
         
-        for food in foods.sprites():
+        sprites = foods.sprites()
+        for i in range(len(sprites) - 1, -1, -1):
+            food = sprites[i]
             if pygame.sprite.collide_circle(self, food):
-                food.change_position()
+                if random.randint(0, 100) > 50:
+                    food.change_position()
+                else:
+                    foods.remove(food)
+                    food.kill()
+                self.score += 1
 
         return False
 

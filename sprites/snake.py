@@ -51,5 +51,8 @@ class Snake:
         self.move(mouse_v.phi)
         return self.head.get_in_wall(foods)
 
+    def get_score(self):
+        return self.head.score
+
     def get_head_position(self):
         return (self.snake_list[-1].x, self.snake_list[-1].y)

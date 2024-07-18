@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 
 class Food(pygame.sprite.Sprite):
