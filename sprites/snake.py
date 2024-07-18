@@ -5,8 +5,8 @@ from sprites.snakeHead import SnakeHead
 
 
 class Snake:
-    def __init__(self, length, fragment_size=10, dot_size=2, screen_w=500,
-                 screen_h=500, game_w=1000, game_h=1000,
+    def __init__(self, screen_w, screen_h, game_w, game_h,
+                 length, fragment_size=10, dot_size=2,
                  image_path="assets/snake_fragment.png"):
         
         self.snake_list = [vector.obj(x = game_w / 2, y = game_h / 2)]
@@ -21,7 +21,9 @@ class Snake:
         self.game_h = game_h
 
         self.image = pygame.image.load(image_path)
-        self.head = SnakeHead(self.game_w, self.game_h, image_path)
+        self.rect = self.image.get_rect()
+        self.head = SnakeHead(self.screen_w, self.screen_h,
+                              self.game_w, self.game_h, image_path)
         
     def move(self, angle):
         v = vector.obj(rho=self.dot_size, phi=angle)
@@ -31,7 +33,6 @@ class Snake:
         else:
             self.add_dots -= 1
         self.head.update(self.snake_list[-1].x, self.snake_list[-1].y)
-        return self.head.get_in_wall()
     
     def draw(self, surface):
         head_pos = self.get_head_position()
@@ -39,16 +40,16 @@ class Snake:
         for i in range((len(self.snake_list)-1) % self.fragment_size,
                        len(self.snake_list), self.fragment_size):
             draw_v = self.snake_list[i] - head_v
-            rect = self.image.get_rect()
-            rect.centerx = draw_v.x + self.screen_w / 2
-            rect.centery = draw_v.y + self.screen_h / 2
-            surface.blit(self.image, rect)
+            self.rect.centerx = draw_v.x + self.screen_w / 2
+            self.rect.centery = draw_v.y + self.screen_h / 2
+            surface.blit(self.image, self.rect)
 
-    def update(self, mouse_x, mouse_y):
+    def update(self, mouse_x, mouse_y, foods):
         x = mouse_x - self.screen_w / 2
         y = mouse_y - self.screen_h / 2
         mouse_v = vector.obj(x=x, y=y)
-        return self.move(mouse_v.phi)  # is in wall or not
+        self.move(mouse_v.phi)
+        return self.head.get_in_wall(foods)
 
     def get_head_position(self):
         return (self.snake_list[-1].x, self.snake_list[-1].y)

@@ -2,6 +2,7 @@ import pygame
 import sys
 
 from sprites.snake import Snake
+from sprites.food import Food
 
 
 
@@ -12,6 +13,7 @@ GAME_WIDTH = 1000
 GAME_HEIGHT = 1000
 FPS = 60
 SNAKE_SIZE = 10
+FOOD_COUNT = 10
 
 
 
@@ -26,8 +28,12 @@ clock = pygame.time.Clock()
 
 
 # Спрайты
-snake = Snake(SNAKE_SIZE, screen_w=WIDTH, screen_h=HEIGHT,
-              game_w=GAME_WIDTH, game_h=GAME_HEIGHT)
+snake = Snake(screen_w=WIDTH, screen_h=HEIGHT,
+              game_w=GAME_WIDTH, game_h=GAME_HEIGHT, length=SNAKE_SIZE)
+
+foods = pygame.sprite.Group()
+for i in range(FOOD_COUNT):
+    foods.add(Food(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
 
 
 
@@ -51,22 +57,22 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 if running == False:
-                    snake = Snake(SNAKE_SIZE, screen_w=WIDTH, screen_h=HEIGHT,
-                                  game_w=GAME_WIDTH, game_h=GAME_HEIGHT)
+                    snake = Snake(screen_w=WIDTH, screen_h=HEIGHT, game_w=GAME_WIDTH,
+                                  game_h=GAME_HEIGHT, length=SNAKE_SIZE)
                     running = True
 
 
     # Обновление спрайтов
     if running:
-        if snake.update(mouse_x, mouse_y):
+        if snake.update(mouse_x, mouse_y, foods):
             running = False
+    head_x, head_y = snake.get_head_position()
+    if running:
+        foods.update(head_x, head_y)
 
 
     # Рендеринг
-    head_x, head_y = snake.get_head_position()
-
     screen.fill((255, 255, 255))
-    snake.draw(screen)
     pygame.draw.line(screen, (0, 0, 0),
                      (WIDTH / 2 - head_x, HEIGHT / 2 - head_y),
                      (WIDTH / 2 - head_x + GAME_WIDTH, HEIGHT / 2 - head_y), 3)
@@ -79,8 +85,11 @@ while True:
     pygame.draw.line(screen, (0, 0, 0),
                      (WIDTH / 2 - head_x + GAME_WIDTH, HEIGHT / 2 - head_y),
                      (WIDTH / 2 - head_x + GAME_WIDTH, HEIGHT / 2 - head_y + GAME_HEIGHT), 3)
+    foods.draw(screen)
+    snake.draw(screen)
+
     if not running:
-        text = my_font.render("Game Over", False, (0, 0, 0))
+        text = my_font.render("Game Over", False, (255, 0, 0))
         rect = text.get_rect()
         rect.center = (WIDTH / 2, HEIGHT / 2)
         screen.blit(text, rect)
