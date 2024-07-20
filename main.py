@@ -23,7 +23,7 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("snake")
 pygame.font.init()
-font1 = pygame.font.Font(None, 60)
+font1 = pygame.font.Font(None, 70)
 font2 = pygame.font.Font(None, 40)
 clock = pygame.time.Clock()
 
@@ -110,7 +110,7 @@ while True:
     if not running:
         text = font1.render("Game Over", False, (255, 0, 0))
         rect = text.get_rect()
-        rect.center = (WIDTH / 2, HEIGHT / 2)
+        rect.center = (WIDTH / 2, HEIGHT / 6)
         screen.blit(text, rect)
 
     # Обновление экрана
