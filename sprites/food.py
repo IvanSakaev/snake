@@ -21,7 +21,6 @@ class Food(pygame.sprite.Sprite):
         self.game_h = game_h
         self.x = 0
         self.y = 0
-        self.radius = self.rect.height / 2
         self.size = size
         self.change_position()
 

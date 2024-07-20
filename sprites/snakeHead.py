@@ -13,7 +13,6 @@ class SnakeHead(pygame.sprite.Sprite):
         self.screen_h = screen_h
         self.game_width = game_width
         self.game_height = game_height
-        self.radius = self.rect.height / 2
         self.x = 0
         self.y = 0
         self.score = 0
@@ -31,7 +30,7 @@ class SnakeHead(pygame.sprite.Sprite):
         sprites = foods.sprites()
         for i in range(len(sprites) - 1, -1, -1):
             food = sprites[i]
-            if pygame.sprite.collide_circle(self, food):
+            if pygame.sprite.collide_rect(self, food):
                 if random.randint(0, 100) < 50:
                     food.change_position()
                 else:
