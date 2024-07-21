@@ -55,7 +55,7 @@ class Snake:
     
     def turbo_reduce_score(self):
         self.turbo_timer += 1
-        if self.turbo_timer >= 10:
+        if self.turbo_timer >= 5:
             self.head.score -= 1
             self.turbo_timer = 0
 

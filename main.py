@@ -87,8 +87,6 @@ while True:
                 snake.turbo_reduce_score()
     head_x, head_y = snake.get_head_position()
     if running:
-        if random.randint(0, 100) < 25:
-            foods.add(Food(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
         foods.update(head_x, head_y)
         meteors.update(head_x, head_y)
 
