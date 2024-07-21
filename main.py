@@ -14,7 +14,7 @@ HEIGHT = 750
 GAME_WIDTH = 3000
 GAME_HEIGHT = 3000
 FPS = 60
-SNAKE_SIZE = 10
+SNAKE_SIZE = 5
 FOOD_COUNT = 400
 METEOR_COUNT = 100
 CHEATS = False
@@ -81,7 +81,7 @@ while True:
 
 
     # Обновление спрайтов
-    if running:
+    if running or CHEATS:
         meteors.update()
         if not snake.update(mouse_x, mouse_y, foods, meteors):
             running = False
@@ -91,7 +91,7 @@ while True:
             if not CHEATS:
                 snake.turbo_reduce_score()
     head_x, head_y = snake.get_head_position()
-    if running:
+    if running or CHEATS:
         foods.update(head_x, head_y)
 
 
@@ -119,7 +119,7 @@ while True:
     rect.left = 40
     screen.blit(text, rect)
 
-    if not running:
+    if not running and not CHEATS:
         text = font1.render("Game Over", False, (255, 0, 0))
         rect = text.get_rect()
         rect.center = (WIDTH / 2, HEIGHT / 6)
