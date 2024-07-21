@@ -7,7 +7,7 @@ import math
 class Meteor(pygame.sprite.Sprite):
     def __init__(self, screen_w, screen_h, game_w, game_h):
         super().__init__()
-        self.image = pygame.image.load("assets/big_food.png")
+        self.image = pygame.image.load("assets/meteor.png")
         self.rect = self.image.get_rect()
         self.screen_w = screen_w
         self.screen_h = screen_h
