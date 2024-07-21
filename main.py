@@ -69,6 +69,10 @@ while True:
                 if running == False:
                     snake = Snake(screen_w=WIDTH, screen_h=HEIGHT, game_w=GAME_WIDTH,
                                   game_h=GAME_HEIGHT, length=SNAKE_SIZE)
+                    for meteor in meteors.sprites():
+                        meteor.move_to_start_position()
+                    for food in foods.sprites():
+                        food.change_position()
                     running = True
         if event.type == pygame.MOUSEBUTTONDOWN:
             turbo = True
@@ -78,17 +82,17 @@ while True:
 
     # Обновление спрайтов
     if running:
-        if snake.update(mouse_x, mouse_y, foods):
+        meteors.update()
+        if not snake.update(mouse_x, mouse_y, foods, meteors):
             running = False
         if turbo and ((snake.get_score() > 0) or CHEATS):
-            if snake.update(mouse_x, mouse_y, foods):
+            if not snake.update(mouse_x, mouse_y, foods, meteors):
                 running = False
             if not CHEATS:
                 snake.turbo_reduce_score()
     head_x, head_y = snake.get_head_position()
     if running:
         foods.update(head_x, head_y)
-        meteors.update(head_x, head_y)
 
 
     # Рендеринг

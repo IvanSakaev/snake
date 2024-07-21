@@ -13,6 +13,7 @@ class Meteor(pygame.sprite.Sprite):
         self.screen_h = screen_h
         self.game_w = game_w
         self.game_h = game_h
+        self.radius = self.rect.height / 2
         self.x = 0
         self.y = 0
         self.move_x = 0
@@ -22,7 +23,7 @@ class Meteor(pygame.sprite.Sprite):
     def draw(self, surface):
         surface.blit(self.image, self.rect)
 
-    def update(self, head_x, head_y):
+    def update(self):
         self.x += self.move_x
         self.y += self.move_y
         if self.x < 0:
@@ -33,7 +34,10 @@ class Meteor(pygame.sprite.Sprite):
             self.x = self.rect.width
         if self.y > self.game_h:
             self.y = self.rect.height
-        self._update_rect(head_x, head_y)
+        
+    def update_rect(self, head_x, head_y):
+        self.rect.center = (self.x - head_x + self.screen_w / 2,
+                            self.y - head_y + self.screen_h / 2)
         
     def move_to_start_position(self):
         self.x = self.game_w / 2
@@ -61,7 +65,3 @@ class Meteor(pygame.sprite.Sprite):
         move_v = vector.obj(phi=phi, rho=rho)
         self.move_x = move_v.x
         self.move_y = move_v.y
-        
-    def _update_rect(self, head_x, head_y):
-        self.rect.center = (self.x - head_x + self.screen_w / 2,
-                            self.y - head_y + self.screen_h / 2)

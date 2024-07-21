@@ -24,6 +24,7 @@ class Snake:
         self.rect = self.image.get_rect()
         self.head = SnakeHead(self.screen_w, self.screen_h,
                               self.game_w, self.game_h, image_path)
+        self.radius = self.rect.height / 2
         
         self.turbo_timer = 0
         
@@ -46,12 +47,32 @@ class Snake:
             self.rect.centery = draw_v.y + self.screen_h / 2
             surface.blit(self.image, self.rect)
 
-    def update(self, mouse_x, mouse_y, foods):
+    def update(self, mouse_x, mouse_y, foods, meteors):
         x = mouse_x - self.screen_w / 2
         y = mouse_y - self.screen_h / 2
         mouse_v = vector.obj(x=x, y=y)
         self.move(mouse_v.phi)
-        return self.head.get_in_wall(foods)
+
+        head_pos = self.get_head_position()
+        for meteor in meteors.sprites():
+            meteor.update_rect(head_pos[0], head_pos[1])
+
+        good = True
+        head_v = vector.obj(x=head_pos[0], y=head_pos[1])
+        for i in range((len(self.snake_list)-1) % self.fragment_size,
+                       len(self.snake_list), self.fragment_size):
+            draw_v = self.snake_list[i] - head_v
+            self.rect.centerx = draw_v.x + self.screen_w / 2
+            self.rect.centery = draw_v.y + self.screen_h / 2
+            for meteor in meteors.sprites():
+                if pygame.sprite.collide_rect(self, meteor):
+                    if pygame.sprite.collide_circle(self, meteor):
+                        good = False
+
+        if not self.head.get_is_alive(foods):
+            good = False
+
+        return good
     
     def turbo_reduce_score(self):
         self.turbo_timer += 1

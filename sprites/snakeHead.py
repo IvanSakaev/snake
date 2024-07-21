@@ -17,22 +17,22 @@ class SnakeHead(pygame.sprite.Sprite):
         self.y = 0
         self.score = 0
 
-    def get_in_wall(self, foods : pygame.sprite.Group):
+    def get_is_alive(self, foods : pygame.sprite.Group):
         if self.rect.left <= self.screen_w / 2 - self.x:
-            return True
+            return False
         if self.rect.top <= self.screen_h / 2 - self.y:
-            return True
+            return False
         if self.rect.right >= self.screen_w / 2 - self.x + self.game_w:
-            return True
+            return False
         if self.rect.bottom >= self.screen_h / 2 - self.y + self.game_h:
-            return True
+            return False
         
         for food in foods.sprites():
             if pygame.sprite.collide_rect(self, food):
                 food.change_position()
                 self.score += food.size
 
-        return False
+        return True
 
     def update(self, x, y):
         self.x = x
