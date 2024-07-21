@@ -4,17 +4,20 @@ import sys
 
 from sprites.snake import Snake
 from sprites.food import Food
+from sprites.meteor import Meteor
 
 
 
 # Константы
 WIDTH = 750
 HEIGHT = 750
-GAME_WIDTH = 5000
-GAME_HEIGHT = 5000
+GAME_WIDTH = 3000
+GAME_HEIGHT = 3000
 FPS = 60
 SNAKE_SIZE = 10
 FOOD_COUNT = 1000
+METEOR_COUNT = 100
+CHEATS = False
 
 
 
@@ -36,6 +39,10 @@ snake = Snake(screen_w=WIDTH, screen_h=HEIGHT,
 foods = pygame.sprite.Group()
 for i in range(FOOD_COUNT):
     foods.add(Food(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
+
+meteors = pygame.sprite.Group()
+for i in range(METEOR_COUNT):
+    meteors.add(Meteor(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
 
 
 
@@ -73,15 +80,17 @@ while True:
     if running:
         if snake.update(mouse_x, mouse_y, foods):
             running = False
-        if turbo and (snake.get_score() > 0):
+        if turbo and ((snake.get_score() > 0) or CHEATS):
             if snake.update(mouse_x, mouse_y, foods):
                 running = False
-            snake.turbo_reduce_score()
+            if not CHEATS:
+                snake.turbo_reduce_score()
     head_x, head_y = snake.get_head_position()
     if running:
         if random.randint(0, 100) < 25:
             foods.add(Food(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
         foods.update(head_x, head_y)
+        meteors.update(head_x, head_y)
 
 
     # Рендеринг
@@ -99,6 +108,7 @@ while True:
                      (WIDTH / 2 - head_x + GAME_WIDTH, HEIGHT / 2 - head_y),
                      (WIDTH / 2 - head_x + GAME_WIDTH, HEIGHT / 2 - head_y + GAME_HEIGHT), 3)
     foods.draw(screen)
+    meteors.draw(screen)
     snake.draw(screen)
 
     text = font2.render(f"score: {snake.get_score()}", False, (0, 0, 0))

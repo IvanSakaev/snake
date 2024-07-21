@@ -3,7 +3,7 @@ import random
 
 
 class SnakeHead(pygame.sprite.Sprite):
-    def __init__(self, screen_w, screen_h, game_width, game_height,
+    def __init__(self, screen_w, screen_h, game_w, game_h,
                  image_path="assets/snake_fragment.png"):
         super().__init__()
         self.image = pygame.image.load(image_path)
@@ -11,8 +11,8 @@ class SnakeHead(pygame.sprite.Sprite):
         self.rect.center = (screen_w / 2, screen_h / 2)
         self.screen_w = screen_w
         self.screen_h = screen_h
-        self.game_width = game_width
-        self.game_height = game_height
+        self.game_w = game_w
+        self.game_h = game_h
         self.x = 0
         self.y = 0
         self.score = 0
@@ -22,9 +22,9 @@ class SnakeHead(pygame.sprite.Sprite):
             return True
         if self.rect.top <= self.screen_h / 2 - self.y:
             return True
-        if self.rect.right >= self.screen_w / 2 - self.x + self.game_width:
+        if self.rect.right >= self.screen_w / 2 - self.x + self.game_w:
             return True
-        if self.rect.bottom >= self.screen_h / 2 - self.y + self.game_height:
+        if self.rect.bottom >= self.screen_h / 2 - self.y + self.game_h:
             return True
         
         sprites = foods.sprites()

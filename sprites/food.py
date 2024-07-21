@@ -1,6 +1,5 @@
 import pygame
 import random
-import time
 
 
 class Food(pygame.sprite.Sprite):
@@ -9,7 +8,7 @@ class Food(pygame.sprite.Sprite):
             image_path = "assets/food.png"
             size = 1
         else:
-            image_path = "assets/big_food.png"
+            image_path = "assets/food.png" # "assets/big_food.png"
             size = 5
 
         super().__init__()
