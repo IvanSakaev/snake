@@ -10,6 +10,7 @@ class Snake:
                  image_path="assets/snake_fragment.png"):
         
         self.snake_list = [vector.obj(x = game_w / 2, y = game_h / 2)]
+        self.start_length = length
         self.length = length
         self.fragment_size = fragment_size
         self.dot_size = dot_size
@@ -36,6 +37,14 @@ class Snake:
         else:
             self.add_dots -= 1
         self.head.update(self.snake_list[-1].x, self.snake_list[-1].y)
+        length = self.start_length + self.head.score // 10
+        if length < self.length:
+            for i in range((self.length - length) * self.fragment_size):
+                self.snake_list.pop(0)
+            self.length = length
+        elif length > self.length:
+            self.add_dots += (length - self.length) * self.fragment_size
+            self.length = length
     
     def draw(self, surface):
         head_pos = self.get_head_position()
