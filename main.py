@@ -71,7 +71,7 @@ while True:
             if event.key == pygame.K_SPACE:
                 if running == False:
                     snake = Snake(screen_w=WIDTH, screen_h=HEIGHT, game_w=GAME_WIDTH,
-                                  game_h=GAME_HEIGHT, length=SNAKE_SIZE)
+                                  game_h=GAME_HEIGHT, length=SNAKE_SIZE, fragment_size=SNAKE_FRAGMENT_SIZE, dot_size=SNAKE_DOT_SIZE)
                     for meteor in meteors.sprites():
                         meteor.move_to_start_position()
                     for food in foods.sprites():
