@@ -17,7 +17,7 @@ class SnakeHead(pygame.sprite.Sprite):
         self.y = 0
         self.score = 0
 
-    def get_is_alive(self, foods : pygame.sprite.Group):
+    def get_is_alive(self, foods):
         if self.rect.left <= self.screen_w / 2 - self.x:
             return False
         if self.rect.top <= self.screen_h / 2 - self.y:

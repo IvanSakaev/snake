@@ -9,12 +9,14 @@ from sprites.meteor import Meteor
 
 
 # Константы
-WIDTH = 750
+WIDTH = 1000
 HEIGHT = 750
 GAME_WIDTH = 3000
 GAME_HEIGHT = 3000
 FPS = 60
 SNAKE_SIZE = 5
+SNAKE_FRAGMENT_SIZE = 10
+SNAKE_DOT_SIZE = 2
 FOOD_COUNT = 400
 METEOR_COUNT = 100
 CHEATS = False
@@ -33,8 +35,9 @@ clock = pygame.time.Clock()
 
 
 # Спрайты
-snake = Snake(screen_w=WIDTH, screen_h=HEIGHT,
-              game_w=GAME_WIDTH, game_h=GAME_HEIGHT, length=SNAKE_SIZE)
+snake = Snake(screen_w=WIDTH, screen_h=HEIGHT, game_w=GAME_WIDTH,
+              game_h=GAME_HEIGHT, length=SNAKE_SIZE,
+              fragment_size=SNAKE_FRAGMENT_SIZE, dot_size=SNAKE_DOT_SIZE)
 
 foods = pygame.sprite.Group()
 for i in range(FOOD_COUNT):

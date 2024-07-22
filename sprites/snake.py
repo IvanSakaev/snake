@@ -6,7 +6,7 @@ from sprites.snakeHead import SnakeHead
 
 class Snake:
     def __init__(self, screen_w, screen_h, game_w, game_h,
-                 length, fragment_size=10, dot_size=2,
+                 length, fragment_size, dot_size,
                  image_path="assets/snake_fragment.png"):
         
         self.snake_list = [vector.obj(x = game_w / 2, y = game_h / 2)]
