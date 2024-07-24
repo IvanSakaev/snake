@@ -3,16 +3,16 @@ import random
 
 
 class Food(pygame.sprite.Sprite):
-    def __init__(self, screen_w, screen_h, game_w, game_h):
+    def __init__(self, screen_w, screen_h, game_w, game_h, image_path_1, image_path_2):
+        super().__init__()
+        
         if random.randint(0, 100) < 95:
-            image_path = "assets/food.png"
+            self.image = pygame.image.load(image_path_1)
             size = 1
         else:
-            image_path = "assets/big_food.png"
+            self.image = pygame.image.load(image_path_2)
             size = 5
 
-        super().__init__()
-        self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
         self.screen_w = screen_w
         self.screen_h = screen_h

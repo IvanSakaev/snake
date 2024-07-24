@@ -1,10 +1,10 @@
 import pygame
-import random
 import sys
 
 from sprites.snake import Snake
 from sprites.food import Food
 from sprites.meteor import Meteor
+from sprites.resource_path import resource_path
 
 
 
@@ -35,17 +35,20 @@ clock = pygame.time.Clock()
 
 
 # Спрайты
-snake = Snake(screen_w=WIDTH, screen_h=HEIGHT, game_w=GAME_WIDTH,
-              game_h=GAME_HEIGHT, length=SNAKE_SIZE,
-              fragment_size=SNAKE_FRAGMENT_SIZE, dot_size=SNAKE_DOT_SIZE)
+snake = Snake(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
+              SNAKE_SIZE, SNAKE_FRAGMENT_SIZE, SNAKE_DOT_SIZE,
+              resource_path("assets/snake_fragment.png"))
 
 foods = pygame.sprite.Group()
 for i in range(FOOD_COUNT):
-    foods.add(Food(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
+    foods.add(Food(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
+                   resource_path("assets/food.png"),
+                   resource_path("assets/big_food.png")))
 
 meteors = pygame.sprite.Group()
 for i in range(METEOR_COUNT):
-    meteors.add(Meteor(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
+    meteors.add(Meteor(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
+                       resource_path("assets/meteor.png")))
 
 
 
@@ -70,8 +73,10 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 if running == False:
-                    snake = Snake(screen_w=WIDTH, screen_h=HEIGHT, game_w=GAME_WIDTH,
-                                  game_h=GAME_HEIGHT, length=SNAKE_SIZE, fragment_size=SNAKE_FRAGMENT_SIZE, dot_size=SNAKE_DOT_SIZE)
+                    snake = Snake(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
+                                  SNAKE_SIZE, SNAKE_FRAGMENT_SIZE,
+                                  SNAKE_DOT_SIZE,
+                                  resource_path("assets/snake_fragment.png"))
                     for meteor in meteors.sprites():
                         meteor.move_to_start_position()
                     for food in foods.sprites():

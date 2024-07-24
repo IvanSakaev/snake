@@ -3,8 +3,7 @@ import random
 
 
 class SnakeHead(pygame.sprite.Sprite):
-    def __init__(self, screen_w, screen_h, game_w, game_h,
-                 image_path="assets/snake_fragment.png"):
+    def __init__(self, screen_w, screen_h, game_w, game_h, image_path):
         super().__init__()
         self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
