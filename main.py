@@ -1,20 +1,22 @@
 import pygame
-import random
 import sys
 
 from sprites.snake import Snake
 from sprites.food import Food
 from sprites.meteor import Meteor
+from sprites.resource_path import resource_path
 
 
 
 # Константы
-WIDTH = 750
+WIDTH = 1000
 HEIGHT = 750
 GAME_WIDTH = 3000
 GAME_HEIGHT = 3000
 FPS = 60
 SNAKE_SIZE = 5
+SNAKE_FRAGMENT_SIZE = 10
+SNAKE_DOT_SIZE = 2
 FOOD_COUNT = 400
 METEOR_COUNT = 100
 CHEATS = False
@@ -33,16 +35,20 @@ clock = pygame.time.Clock()
 
 
 # Спрайты
-snake = Snake(screen_w=WIDTH, screen_h=HEIGHT,
-              game_w=GAME_WIDTH, game_h=GAME_HEIGHT, length=SNAKE_SIZE)
+snake = Snake(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
+              SNAKE_SIZE, SNAKE_FRAGMENT_SIZE, SNAKE_DOT_SIZE,
+              resource_path("assets/snake_fragment.png"))
 
 foods = pygame.sprite.Group()
 for i in range(FOOD_COUNT):
-    foods.add(Food(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
+    foods.add(Food(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
+                   resource_path("assets/food.png"),
+                   resource_path("assets/big_food.png")))
 
 meteors = pygame.sprite.Group()
 for i in range(METEOR_COUNT):
-    meteors.add(Meteor(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT))
+    meteors.add(Meteor(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
+                       resource_path("assets/meteor.png")))
 
 
 
@@ -67,8 +73,10 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 if running == False:
-                    snake = Snake(screen_w=WIDTH, screen_h=HEIGHT, game_w=GAME_WIDTH,
-                                  game_h=GAME_HEIGHT, length=SNAKE_SIZE)
+                    snake = Snake(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
+                                  SNAKE_SIZE, SNAKE_FRAGMENT_SIZE,
+                                  SNAKE_DOT_SIZE,
+                                  resource_path("assets/snake_fragment.png"))
                     for meteor in meteors.sprites():
                         meteor.move_to_start_position()
                     for food in foods.sprites():
