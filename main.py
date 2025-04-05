@@ -130,7 +130,7 @@ while True:
     if not running and not CHEATS:
         text = font1.render("Game Over", False, (255, 0, 0))
         rect = text.get_rect()
-        rect.center = (WIDTH / 2, HEIGHT / 6)
+        rect.center = (WIDTH // 2, HEIGHT // 6)
         screen.blit(text, rect)
 
     # Обновление экрана
