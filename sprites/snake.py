@@ -64,6 +64,8 @@ class Snake:
         else:
             x = mouse_x - self.screen_w / 2
             y = mouse_y - self.screen_h / 2
+        if x == 0 and y == 0:
+            return True
         mouse_v = vector.obj(x=x, y=y)
         self.move(mouse_v.phi)
 
