@@ -6,26 +6,28 @@ from sprites.resource_path import resource_path
 from sprites.snake import Snake
 
 snake1 = Snake(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
-              SNAKE_SIZE, SNAKE_FRAGMENT_SIZE, SNAKE_DOT_SIZE,
-              resource_path("assets/snake_fragment.png"))
+               SNAKE_SIZE, SNAKE_FRAGMENT_SIZE, SNAKE_DOT_SIZE,
+               resource_path("assets/snake_fragment.png"))
 
 snake2 = Snake(WIDTH, HEIGHT, GAME_WIDTH, GAME_HEIGHT,
-              SNAKE_SIZE, SNAKE_FRAGMENT_SIZE, SNAKE_DOT_SIZE,
-              resource_path("assets/snake_fragment.png"))
+               SNAKE_SIZE, SNAKE_FRAGMENT_SIZE, SNAKE_DOT_SIZE,
+               resource_path("assets/snake_fragment.png"))
 
+player1_mouse_x = 0
+player1_mouse_y = 0
 player2_mouse_x = 0
 player2_mouse_y = 0
 
 
-def main():
+def main(is_server):
+    global player1_mouse_x, player1_mouse_y
+
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("snake")
+    pygame.display.set_caption("server" if is_server else "client")
     clock = pygame.time.Clock()
 
     running = True
-    player1_mouse_x = 0
-    player1_mouse_y = 0
 
     while True:
         # Частота обновления экрана
@@ -42,10 +44,10 @@ def main():
 
         head_x, head_y = snake1.get_head_position()
 
-        if running or CHEATS:
+        if is_server and (running or CHEATS):
             if not snake1.update(player1_mouse_x, player1_mouse_y, pygame.sprite.Group(), pygame.sprite.Group()):
                 running = False
-            if not snake2.update(player2_mouse_x, player2_mouse_y, pygame.sprite.Group(), pygame.sprite.Group(), True):
+            if not snake2.update(player2_mouse_x, player2_mouse_y, pygame.sprite.Group(), pygame.sprite.Group()):
                 running = False
 
         # Рендеринг
@@ -67,8 +69,11 @@ def main():
         pygame.display.update()
 
 
-def set_movement(x, y):
+def get_movement1():
+    return player1_mouse_x, player1_mouse_y
+
+
+def set_movement2(x, y):
     global player2_mouse_x, player2_mouse_y
     player2_mouse_x = x
     player2_mouse_y = y
-    print(player2_mouse_x, player2_mouse_y)

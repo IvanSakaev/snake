@@ -1,13 +1,18 @@
 import requests
 import time
-from math import sin, cos
+from threading import Thread
 
 from constants import *
+from interface import main, get_movement1
 
 time.sleep(1)
 print("starting client...")
 
+t = Thread(target=lambda: main(False))
+t.start()
+
 while True:
-    for a in range(0, 3600):
-        requests.get("http://" + HOST + ":" + str(PORT) + "/move", params={"x": int(sin(a/10) * 1000), "y": int(cos(a/10) * 1000)})
-        time.sleep(0.05)
+    player1_mouse_x, player1_mouse_y = get_movement1()
+    requests.get("http://" + HOST + ":" + str(PORT) + "/move",
+                 params={"x": player1_mouse_x, "y": player1_mouse_y})
+    time.sleep(0.05)
