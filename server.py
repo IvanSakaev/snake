@@ -4,7 +4,7 @@ from flask import Flask, request
 from threading import Thread
 
 from constants import *
-from interface import main, set_movement2
+from interface import main, get_serialized, set_movement2
 
 app = Flask(__name__)
 
@@ -16,9 +16,8 @@ t.start()
 def move():
     x = int(request.args.get('x'))
     y = int(request.args.get('y'))
-    print("got params:", x, y, file=sys.stderr)
     set_movement2(x, y)
-    return "Привет, мир! Flask работает!"
+    return get_serialized()
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import time
 from threading import Thread
 
 from constants import *
-from interface import main, get_movement1
+from interface import main, get_movement1, set_serialized
 
 time.sleep(1)
 print("starting client...")
@@ -13,6 +13,7 @@ t.start()
 
 while True:
     player1_mouse_x, player1_mouse_y = get_movement1()
-    requests.get("http://" + HOST + ":" + str(PORT) + "/move",
-                 params={"x": player1_mouse_x, "y": player1_mouse_y})
-    time.sleep(0.05)
+    out = requests.get("http://" + HOST + ":" + str(PORT) + "/move",
+                       params={"x": player1_mouse_x, "y": player1_mouse_y}).text
+    set_serialized(out)
+    # time.sleep(0.001)

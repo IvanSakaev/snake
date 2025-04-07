@@ -18,6 +18,9 @@ player1_mouse_y = 0
 player2_mouse_x = 0
 player2_mouse_y = 0
 
+player1_serialized = None
+player2_serialized = None
+
 
 def main(is_server):
     global player1_mouse_x, player1_mouse_y
@@ -44,11 +47,16 @@ def main(is_server):
 
         head_x, head_y = snake1.get_head_position()
 
-        if is_server and (running or CHEATS):
-            if not snake1.update(player1_mouse_x, player1_mouse_y, pygame.sprite.Group(), pygame.sprite.Group()):
-                running = False
-            if not snake2.update(player2_mouse_x, player2_mouse_y, pygame.sprite.Group(), pygame.sprite.Group()):
-                running = False
+        if running or CHEATS:
+            if is_server:
+                if not snake1.update(player1_mouse_x, player1_mouse_y, pygame.sprite.Group(), pygame.sprite.Group()):
+                    running = False
+                if not snake2.update(player2_mouse_x, player2_mouse_y, pygame.sprite.Group(), pygame.sprite.Group()):
+                    running = False
+            else:
+                if (player1_serialized is not None) and (player2_serialized is not None):
+                    snake1.load(player1_serialized)
+                    snake2.load(player2_serialized)
 
         # Рендеринг
         screen.fill((255, 255, 255))
@@ -77,3 +85,17 @@ def set_movement2(x, y):
     global player2_mouse_x, player2_mouse_y
     player2_mouse_x = x
     player2_mouse_y = y
+
+
+def get_serialized():
+    a = snake1.serialize()
+    a += "\n"
+    a += snake2.serialize()
+    return a
+
+
+def set_serialized(ser):
+    global player1_serialized, player2_serialized
+    a, b = ser.split("\n")
+    player1_serialized = b
+    player2_serialized = a
